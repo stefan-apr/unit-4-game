@@ -1,0 +1,28 @@
+figure {
+    float: left;
+    width: 25%;
+    overflow: auto;
+}
+
+#remainder {
+    display: none;
+}
+
+.name, .health {
+    text-align: center;
+}
+
+img {
+    display: block;
+    height: 200px;
+    width: auto;
+    margin: auto;
+}
+
+#chosen {
+    margin-right: 75%;
+}
+
+#enemy-list-4 {
+    margin-right: 25%;
+}
