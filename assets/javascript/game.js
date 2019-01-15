@@ -14,7 +14,7 @@ $(document).ready(function() {
         new character("Akuma", "akuma", 150, 6, 25, 150),
         new character("Sakura", "sakura", 120, 8, 10, 120),
         new character("Dan", "dan", 100, 12, 5, 100),
-        new character("T Hawk", "t-hawk", 180, 4, 20, 180),
+        new character("T. Hawk", "t-hawk", 180, 4, 20, 180),
         new character("Oni", "oni", 150, 6, 25, 150)
     ];
 
@@ -55,6 +55,10 @@ $(document).ready(function() {
     var swap = false;
     // Flag determining whether an enemy can be selected
     var changeEnemies = false;
+    // Number of enemies remaining to fight
+    var enemiesLeft = 3;
+    // Which enemies are available to fight
+    var enemiesInList = [];
 
     reset();
 
@@ -96,6 +100,9 @@ $(document).ready(function() {
         canAttack = false;
         enableSwapping = true;
         changeEnemies = false;
+        enemiesLeft = 3;
+        enemiesInList = [];
+        charSlots = [0, 1, 2, 3];
         for(var i = 0; i < 4; i++) {
             console.log($("#character-" + (i + 1) + "-image").attr("src", "images/" + allChars[i].ID + ".png"));
             $("#character-" + (i + 1) + "-image").attr("src", "images/" + allChars[i].ID + ".png");
@@ -137,92 +144,81 @@ $(document).ready(function() {
     });
 
     $("#starting-list-1").click(function() {
-        console.log("Clicked option 1");
-        if(canAttack === false) {
-            if(swap) {
-                var currentSlot = charSlots[0];
-                if(currentSlot < 12) {
-                    charSlots[0] = currentSlot + 4;
-                } else {
-                    charSlots[0] = 0;
-                }
-                console.log($("#character-" + 1 + "-image").attr("src", "images/" + allChars[charSlots[0]].ID + ".png"));
-                $("#character-" + 1 + "-image").attr("src", "images/" + allChars[charSlots[0]].ID + ".png");
-                $("#character-" + 1 + "-name").text(allChars[charSlots[0]].name);
-                swap = false;
-            }  else {
-                chosenCharacter = allChars[charSlots[0]];
-                hideStartingList();
-                populateEnemies(1);
-            }
-        }
+        handlePlayerClick(1);
     });
-
     $("#starting-list-2").click(function() {
-        console.log("Clicked option 2");
-        if(canAttack === false) {
-            if(swap) {
-                var currentSlot = charSlots[1];
-                if(currentSlot < 12) {
-                    charSlots[1] = currentSlot + 4;
-                } else {
-                    charSlots[1] = 1;
-                }
-                console.log($("#character-" + 2 + "-image").attr("src", "images/" + allChars[charSlots[1]].ID + ".png"));
-                $("#character-" + 2 + "-image").attr("src", "images/" + allChars[charSlots[1]].ID + ".png");
-                $("#character-" + 2 + "-name").text(allChars[charSlots[1]].name);
-                swap = false;
-            }  else {
-                chosenCharacter = allChars[charSlots[1]];
-                hideStartingList();
-                populateEnemies(2);
-            }
-        }
+        handlePlayerClick(2);
     });
-
     $("#starting-list-3").click(function() {
-        console.log("Clicked option 3");
-        if(canAttack === false) {
-            if(swap) {
-                var currentSlot = charSlots[2];
-                if(currentSlot < 12) {
-                    charSlots[2] = currentSlot + 4;
-                } else {
-                    charSlots[2] = 2;
-                }
-                console.log($("#character-" + 3 + "-image").attr("src", "images/" + allChars[charSlots[2]].ID + ".png"));
-                $("#character-" + 3 + "-image").attr("src", "images/" + allChars[charSlots[2]].ID + ".png");
-                $("#character-" + 3 + "-name").text(allChars[charSlots[2]].name);
-                swap = false;
-            }  else {
-                chosenCharacter = allChars[charSlots[2]];
-                hideStartingList();
-                populateEnemies(3);
-            }
-        }
+        handlePlayerClick(3);
+    });
+    $("#starting-list-4").click(function() {
+        handlePlayerClick(4);
     });
 
-    $("#starting-list-4").click(function() {
-        console.log("Clicked option 4");
+    $("#enemy-list-1").click(function() {
+        handleEnemyClick(1);
+    });
+    $("#enemy-list-2").click(function() {
+        handleEnemyClick(2);
+    });
+    $("#enemy-list-3").click(function() {
+        handleEnemyClick(3);
+    });
+    $("#enemy-list-4").click(function() {
+        handleEnemyClick(4);
+    });
+
+    function handlePlayerClick(position) {
+        console.log("Clicked character " + position);
         if(canAttack === false) {
             if(swap) {
-                var currentSlot = charSlots[3];
+                var currentSlot = charSlots[position - 1];
                 if(currentSlot < 12) {
-                    charSlots[3] = currentSlot + 4;
+                    charSlots[position - 1] = currentSlot + 4;
                 } else {
-                    charSlots[3] = 3;
+                    charSlots[position - 1] = position - 1;
                 }
-                console.log($("#character-" + 4 + "-image").attr("src", "images/" + allChars[charSlots[3]].ID + ".png"));
-                $("#character-" + 4 + "-image").attr("src", "images/" + allChars[charSlots[3]].ID + ".png");
-                $("#character-" + 4 + "-name").text(allChars[charSlots[3]].name);
+                console.log($("#character-" + position + "-image").attr("src", "images/" + allChars[charSlots[position - 1]].ID + ".png"));
+                $("#character-" + position + "-image").attr("src", "images/" + allChars[charSlots[position - 1]].ID + ".png");
+                $("#character-" + position + "-name").text(allChars[charSlots[position - 1]].name);
                 swap = false;
             }  else {
-                chosenCharacter = allChars[charSlots[3]];
+                chosenCharacter = allChars[charSlots[position - 1]];
                 hideStartingList();
-                populateEnemies(4);
+                populateEnemies(position);
             }
         }
-    });
+    }
+
+    function handleEnemyClick(position) {
+        console.log("Clicked enemy " + position);
+        if(changeEnemies) {
+            enemyCharacter = allChars[charSlots[(position - 1)]];
+            console.log(enemyCharacter);
+            $("#current-enemy").css("display", "block");
+            $("#enemy-name").text(enemyCharacter.name);
+            $("#enemy-image").attr("src", "images/" + enemyCharacter.ID + ".png");
+            $("#enemy-health").text(enemyCharacter.health);
+            canAttack = true;
+            $("#enemy-list-" + position).css("display", "none");
+            var index = enemiesInList.indexOf(position - 1);
+            if (index !== -1) {
+                enemiesInList.splice(index, position);
+                enemiesLeft--;
+            }
+            console.log(enemiesInList);
+            console.log(enemiesLeft);
+            var lastInList = enemiesInList.pop();
+
+            for(var i = 0; i < 4; i++) {
+                $("#enemy-list-" + (i + 1)).css("margin-right", "0%");
+            }
+            
+            $("#enemy-list-" + (lastInList + 1)).css("margin-right", "" + (enemiesLeft * 25) + "%");
+            enemiesInList.push(lastInList);
+        }
+    }
 
     function hideStartingList() {
         $("#init").css("display", "none");
@@ -233,15 +229,20 @@ $(document).ready(function() {
         for(var i = 0; i < 4; i++) {
             $("#enemy-" + (i + 1) + "-name").text(allChars[charSlots[i]].name);
             $("#enemy-" + (i + 1) + "-image").attr("src", "images/" + allChars[charSlots[i]].ID + ".png");
-
+            $("#enemy-" + (i + 1) + "-health").text(allChars[charSlots[i]].health);
+            if(i !== chosen - 1) {
+                enemiesInList.push(i);
+            }
         }
         $("#current-enemy").css("display", "none");
         $("#your-name").text(chosenCharacter.name);
         $("#your-image").attr("src", "images/" + chosenCharacter.ID + ".png");
+        $("#your-health").text(chosenCharacter.health);
         $("#enemy-list-" + chosen).css("display", "none");
         if(chosen == 4) {
             $("#enemy-list-" + 3).css("margin-right", "25%"); 
         }
+        console.log(enemiesInList);
         changeEnemies = true;
         canAttack = false;
     }
