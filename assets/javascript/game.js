@@ -86,13 +86,9 @@ $(document).ready(function() {
         if(chosenCharacter !== null) {
             chosenCharacter.attackPow = (chosenCharacter.attackPow / (turnsTaken + 1));
         }
-        console.log("images/" + currentStage.ID + ".jpg");
-        $("#fight-area").css("background-image", "images/training.jpg");
-        $("#fight-area").css("background-size", "contain");
-        $("#fight-area").css("background-repeat", "no-repeat");
-        $("#fight-area").css("width", "100%");
-        $("#fight-area").css("height", "1000px");
-
+        currentStage = allStages[0];
+        $("#stage-img").attr("src", "images/" + currentStage.ID + ".jpg");
+        $("#stage-name").text("Current Stage: Training Stage");
         turnsTaken = 0;
         enemiesDefeated = 0;
         chosenCharacter = null;
@@ -100,26 +96,38 @@ $(document).ready(function() {
         canAttack = false;
         enableSwapping = true;
         changeEnemies = false;
+        swap = false;
         enemiesLeft = 3;
         enemiesInList = [];
         charSlots = [0, 1, 2, 3];
         for(var i = 0; i < 4; i++) {
-            console.log($("#character-" + (i + 1) + "-image").attr("src", "images/" + allChars[i].ID + ".png"));
             $("#character-" + (i + 1) + "-image").attr("src", "images/" + allChars[i].ID + ".png");
+            $("#starting-list-" + (i + 1)).css("display", "block");
         }
+        $("#remainder").css("display", "none");
+        $("#init").css("display", "block");
+        $(".update-text").css("color", "black");
+        $(".update-text").css("font-weight", "normal");
+        $(".update-text").text("");
     }
 
     // Logic that handles attacking
     $("#attack-button").click(function() {
-        console.log("Clicked attack");
         if(canAttack) {
             enemyCharacter.health -= chosenCharacter.attackPow;
             chosenCharacter.health -= enemyCharacter.counterPow;
+            $("#your-health").text(chosenCharacter.health);
+            $("#enemy-health").text(enemyCharacter.health);
+            $("#your-hit").text("You hit " + enemyCharacter.name + " for " + chosenCharacter.attackPow + " damage!");
+            $("#their-hit").text("You were hit by " + enemyCharacter.name + " for " + enemyCharacter.counterPow + " damage!");
+
+            // You lose
             if(chosenCharacter.health <= 0) {
                 turnsTaken++;
                 gameOver(false);
                 return;
             }
+            // You defeat the enemy
             if(enemyCharacter.health <= 0) {
                 enemiesDefeated++;
                 if(enemiesDefeated == 3) {
@@ -137,7 +145,6 @@ $(document).ready(function() {
     });
 
     $("#cycle-button").click(function() {
-        console.log("Clicked cycle");
         if(enableSwapping) {
             swap = true;
         }
@@ -169,6 +176,10 @@ $(document).ready(function() {
         handleEnemyClick(4);
     });
 
+    $("#reset").click(function() {
+        reset();
+    });
+
     function handlePlayerClick(position) {
         console.log("Clicked character " + position);
         if(canAttack === false) {
@@ -194,6 +205,9 @@ $(document).ready(function() {
     function handleEnemyClick(position) {
         console.log("Clicked enemy " + position);
         if(changeEnemies) {
+            currentStage = allStages[Math.floor(Math.random() * allStages.length)];
+            $("#stage-img").attr("src", "images/" + currentStage.ID + ".jpg");
+            $("#stage-name").text("Current Stage: " + currentStage.name);
             enemyCharacter = allChars[charSlots[(position - 1)]];
             console.log(enemyCharacter);
             $("#current-enemy").css("display", "block");
@@ -204,19 +218,18 @@ $(document).ready(function() {
             $("#enemy-list-" + position).css("display", "none");
             var index = enemiesInList.indexOf(position - 1);
             if (index !== -1) {
-                enemiesInList.splice(index, position);
+                enemiesInList.splice(index, 1);
                 enemiesLeft--;
             }
-            console.log(enemiesInList);
-            console.log(enemiesLeft);
             var lastInList = enemiesInList.pop();
 
             for(var i = 0; i < 4; i++) {
                 $("#enemy-list-" + (i + 1)).css("margin-right", "0%");
             }
             
-            $("#enemy-list-" + (lastInList + 1)).css("margin-right", "" + (enemiesLeft * 25) + "%");
+            $("#enemy-list-" + (lastInList + 1)).css("margin-right", "" + ((4 - enemiesLeft) * 25) + "%");
             enemiesInList.push(lastInList);
+            changeEnemies = false;
         }
     }
 
@@ -227,6 +240,8 @@ $(document).ready(function() {
     function populateEnemies(chosen) {
         $("#remainder").css("display", "block");
         for(var i = 0; i < 4; i++) {
+            $("#enemy-list-" + (i + 1)).css("display", "block");
+            $("#enemy-list-" + (i + 1)).css("margin-right", "0%");            
             $("#enemy-" + (i + 1) + "-name").text(allChars[charSlots[i]].name);
             $("#enemy-" + (i + 1) + "-image").attr("src", "images/" + allChars[charSlots[i]].ID + ".png");
             $("#enemy-" + (i + 1) + "-health").text(allChars[charSlots[i]].health);
@@ -240,21 +255,24 @@ $(document).ready(function() {
         $("#your-health").text(chosenCharacter.health);
         $("#enemy-list-" + chosen).css("display", "none");
         if(chosen == 4) {
-            $("#enemy-list-" + 3).css("margin-right", "25%"); 
+            $("#enemy-list-" + 3).css("margin-right", "25%");
+        } else {
+            $("#enemy-list-" + 4).css("margin-right", "25%");
         }
-        console.log(enemiesInList);
         changeEnemies = true;
         canAttack = false;
     }
 
     // WIP
     function gameOver(winner) {
+        canAttack = false;
+        enableSwapping = false;
         if(winner) {
             console.log("You won");
         } else {
-            console.log("You lost");
+            $("#extra-text").css("color", "darkred");
+            $("#extra-text").css("font-weight", "bolder");
+            $("#extra-text").text("You've lost! Press the reset button to reset the game.");
         }
     }
-
-
 });

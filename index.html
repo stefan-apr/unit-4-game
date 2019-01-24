@@ -28,75 +28,87 @@
       <div class="col-lg-12">
         <div class="card">
           <h3 class="card-header">Game</h3>
+          <img src="" alt="stage" id="stage-img"/>
           <div id="fight-area">
-            <div class="card-body">
-              <div id="init">
-                <h2 id="avail-header">Available Characters</h2> 
-                <h5 id="choose-character">Choose a character to get started!</h5>
-                <figure class="character" id="starting-list-1">
-                  <div class="name" id="character-1-name" value="Ryu">Ryu</div>
-                  <img class="character-image" id="character-1-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="character-1-health">120</div>
-                </figure>
-                <figure class="character" id="starting-list-2">
-                  <div class="name" id="character-2-name" value="Chun-Li">Chun-Li</div>
-                  <img class="character-image" id="character-2-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="character-2-health">100</div>
-                </figure>
-                <figure class="character" id="starting-list-3">
-                  <div class="name" id="character-3-name" value="Hugo">Hugo</div>
-                  <img class="character-image" id="character-3-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="character-3-health">180</div>
-                </figure>
-                <figure class="character" id="starting-list-4">
-                  <div class="name" id="character-4-name" value="M. Bison">M. Bison</div>
-                  <img class="character-image" id="character-4-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="character-4-health">150</div>
-                </figure>
-                <br>
-                <h5>Click this button, then a character, to cycle out that character.</h5>
-                <button id="cycle-button" class="btn btn-dark"><h4>Cycle Character</h4></button>
-              <br><br>
-              </div>
-              <div id="remainder">
-                <h2>Your Character</h2>
-                <figure class="character" id="chosen">
-                  <div class="name" id="your-name" value=""></div>
-                  <img class="character-image" id="your-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="your-health"></div>
-                </figure>
-                <br>
-                <h2>Opposing Characters</h2>
-                <h5 id="choose-character">Choose a character to fight!</h5>
-                  <figure class="character" id="enemy-list-1">
-                    <div class="name" id="enemy-1-name" value=""></div>
-                    <img class="character-image" id="enemy-1-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                    <div class="health" id="enemy-1-health"></div>
+            <div id="sub-area">
+              <div class="card-body">
+                <div id="stage-info">
+                  <h2 id="stage-name"></h2>
+                </div>
+                <div id="init">
+                  <h2 id="avail-header">Available Characters</h2>
+                  <h5 id="choose-character">Choose a character to get started!</h5>
+                  <figure class="character" id="starting-list-1">
+                    <div class="name" id="character-1-name" value="Ryu">Ryu</div>
+                    <img class="character-image" id="character-1-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="character-1-health">120</div>
                   </figure>
-                  <figure class="character" id="enemy-list-2">
-                    <div class="name" id="enemy-2-name" value=""></div>
-                    <img class="character-image" id="enemy-2-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                    <div class="health" id="enemy-2-health"></div>
+                  <figure class="character" id="starting-list-2">
+                    <div class="name" id="character-2-name" value="Chun-Li">Chun-Li</div>
+                    <img class="character-image" id="character-2-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="character-2-health">100</div>
                   </figure>
-                  <figure class="character" id="enemy-list-3">
-                    <div class="name" id="enemy-3-name" value=""></div>
-                    <img class="character-image" id="enemy-3-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                    <div class="health" id="enemy-3-health"></div>
+                  <figure class="character" id="starting-list-3">
+                    <div class="name" id="character-3-name" value="Hugo">Hugo</div>
+                    <img class="character-image" id="character-3-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="character-3-health">180</div>
                   </figure>
-                  <figure class="character" id="enemy-list-4">
-                      <div class="name" id="enemy-4-name" value=""></div>
-                      <img class="character-image" id="enemy-4-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                      <div class="health" id="enemy-4-health"></div>
+                  <figure class="character" id="starting-list-4">
+                    <div class="name" id="character-4-name" value="M. Bison">M. Bison</div>
+                    <img class="character-image" id="character-4-image" src="assets/javascript/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="character-4-health">150</div>
                   </figure>
-                <br>
-                <button id="attack-button" class="btn btn-dark"><h4>Attack</h4></button>
-                <br>
-                <h2>Current Enemy</h2>
-                <figure class="character" id="current-enemy">
-                  <div class="name" id="enemy-name" value=""></div>
-                  <img class="character-image" id="enemy-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
-                  <div class="health" id="enemy-health"></div>
-                </figure>
+                  <br>
+                  <h5>Click this button, then a character, to cycle out that character.</h5>
+                  <button id="cycle-button" class="btn btn-dark"><h4>Cycle Character</h4></button>
+                <br><br>
+                </div>
+                <div id="remainder">
+                  <h2>Your Character</h2>
+                  <figure class="character" id="chosen">
+                    <div class="name" id="your-name" value=""></div>
+                    <img class="character-image" id="your-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="your-health"></div>
+                  </figure>
+                  <br>
+                  <h2>Opposing Characters</h2>
+                  <h5 id="choose-character">Choose a character to fight!</h5>
+                    <figure class="character" id="enemy-list-1">
+                      <div class="name" id="enemy-1-name" value=""></div>
+                      <img class="character-image" id="enemy-1-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                      <div class="health" id="enemy-1-health"></div>
+                    </figure>
+                    <figure class="character" id="enemy-list-2">
+                      <div class="name" id="enemy-2-name" value=""></div>
+                      <img class="character-image" id="enemy-2-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                      <div class="health" id="enemy-2-health"></div>
+                    </figure>
+                    <figure class="character" id="enemy-list-3">
+                      <div class="name" id="enemy-3-name" value=""></div>
+                      <img class="character-image" id="enemy-3-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                      <div class="health" id="enemy-3-health"></div>
+                    </figure>
+                    <figure class="character" id="enemy-list-4">
+                        <div class="name" id="enemy-4-name" value=""></div>
+                        <img class="character-image" id="enemy-4-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                        <div class="health" id="enemy-4-health"></div>
+                    </figure>
+                  <br>
+                  <br>
+                  <h2>Current Enemy</h2>
+                  <figure class="character" id="current-enemy">
+                    <div class="name" id="enemy-name" value=""></div>
+                    <img class="character-image" id="enemy-image" src="assets/images/placeholder.png" alt="Street Fighter Character"/>
+                    <div class="health" id="enemy-health"></div>
+                  </figure>
+                  <button id="attack-button" class="btn btn-dark"><h4>Attack</h4></button>
+                  <br>
+                  <h6 class="update-text" id="your-hit"></h6>
+                  <h6 class="update-text" id="their-hit"></h6>
+                  <h6 class="update-text" id="extra-text"></h6>
+                  <br>
+                  <button id="reset" class="btn btn-dark"><h4>Reset</h4></button>
+                </div>
               </div>
             </div>
           </div>
